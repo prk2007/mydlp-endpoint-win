@@ -1,18 +1,12 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="WixToolset.Sdk/5.0.2">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
-    <ProjectGuid>{a72a6390-d25f-4a0a-afbb-ba3053bad0ae}</ProjectGuid>
-    <SchemaVersion>2.0</SchemaVersion>
     <OutputName>mydlp</OutputName>
-    <OutputType>Package</OutputType>
-    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
-    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
     <CompilerAdditionalOptions>-derl5_8_5Path=$(SolutionDir)..\..\mydlp-deployment-env\erl5.8.5
 -dengine_erlPath=$(SolutionDir)..\..\mydlp-endpoint-win\EndPoint\Engine\mydlp\src\mydlp
@@ -24,11 +18,8 @@
     <SuppressIces>ICE20</SuppressIces>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <VerboseOutput>False</VerboseOutput>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants></DefineConstants>
     <CompilerAdditionalOptions>-derl5_8_5Path=$(SolutionDir)..\..\mydlp-deployment-env\erl5.8.5
 -dengine_erlPath=$(SolutionDir)..\..\mydlp-endpoint-win\EndPoint\Engine\mydlp\src\mydlp
 -dprintingPath=$(SolutionDir)..\..\mydlp-endpoint-win\EndPoint\Service\printing
@@ -61,22 +52,12 @@
     <Folder Include="harvested" />
   </ItemGroup>
   <ItemGroup>
-    <WixExtension Include="WixUIExtension">
-      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
-      <Name>WixUIExtension</Name>
-    </WixExtension>
+    <PackageReference Include="WixToolset.UI.wixext" Version="5.0.2" />
   </ItemGroup>
-  <Import Project="$(WixTargetsPath)" />
-  <!--
-	To modify your build process, add your task inside one of the targets below and uncomment it.
-	Other similar extension points exist, see Wix.targets.
-	<Target Name="BeforeBuild">
-	</Target>
-	<Target Name="AfterBuild">
-	</Target>
-	-->
-  <PropertyGroup>
-    <PreBuildEvent>$(ProjectDir)increment.js  $(ConfigurationName)  $(ProjectDir) &amp; $(ProjectDir)harvest.bat</PreBuildEvent>
-    <PostBuildEvent>$(ProjectDir)moveversion.js  $(ConfigurationName) $(ProjectDir)</PostBuildEvent>
-  </PropertyGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="$(ProjectDir)increment.js  $(ConfigurationName)  $(ProjectDir) &amp; $(ProjectDir)harvest.bat" />
+  </Target>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="$(ProjectDir)moveversion.js  $(ConfigurationName) $(ProjectDir)" />
+  </Target>
 </Project>

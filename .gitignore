@@ -21,3 +21,4 @@ bin/
 obj/
 *~
 
+/EndPoint/.vs/MyDLP.EndPoint

@@ -17,14 +17,6 @@
 //    along with MyDLP.  If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.ServiceProcess;
-using System.Text;
-
 namespace MyDLP.EndPoint.Service
 {
     public partial class WatchdogService : ServiceBase
@@ -36,18 +28,18 @@ namespace MyDLP.EndPoint.Service
         }
 
         protected override void OnStart(string[] args)
-        {    
-            WatchdogController.SetServiceLogger(myDLPEventLog);        
-            WatchdogController controller = 
-                WatchdogController.GetInstance(); 
-            controller.Start();            
+        {
+            WatchdogController.SetServiceLogger(myDLPEventLog);
+            WatchdogController controller =
+                WatchdogController.GetInstance();
+            controller.Start();
         }
 
         protected override void OnStop()
         {
             WatchdogController controller =
                 WatchdogController.GetInstance();
-            controller.Stop();          
+            controller.Stop();
         }
 
         private void InitializeLogSource()
@@ -56,7 +48,7 @@ namespace MyDLP.EndPoint.Service
             {
                 System.Diagnostics.EventLog.CreateEventSource(
                     myDLPEventLog.Source,
-                    myDLPEventLog.Log 
+                    myDLPEventLog.Log
                     );
             }
         }

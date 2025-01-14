@@ -1,33 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <?include ProductVersion.wxi?>
-  <Product Id="*" Name="MyDLP" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Medra Tech."
-           UpgradeCode="9BA3E701-8F64-46B1-9D2A-8A29B22C0F65">
+  <Package Name="MyDLP" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Medra Tech." UpgradeCode="9BA3E701-8F64-46B1-9D2A-8A29B22C0F65" InstallerVersion="100"><SummaryInformation Keywords="Installer" Description="MyDLP Endpoint Installer" Manufacturer="Medra Tech." />
 
-    <Package Id='*' Keywords='Installer' Description="MyDLP Endpoint Installer"
-    Comments='comment' Manufacturer='Medra Tech.'
-    InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
-
-    <Icon Id="icon.ico" SourceFile="mydlps.ico"/>
+    <Icon Id="icon.ico" SourceFile="mydlps.ico" />
     <Property Id="ARPPRODUCTICON" Value="icon.ico" />
     
-    <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' />
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFilesFolder">
-        <Directory Id="INSTALLLOCATION" Name="MyDLP">
-          <Directory Id="LOGSDIR" Name="logs" />
-          <Directory Id="RUNDIR" Name="run" />
-          <Directory Id="SPOOLDIR" Name="spool" />
-          <Directory Id="MNESIADIR" Name="mnesia" />
-          <Directory Id="PRINTINGDIR" Name="printing" />
-          <Directory Id="ENGINEDIR" Name="engine">
-            <Directory Id="ENGINEJAVADIR" Name="java" />
-            <Directory Id="ENGINEERLDIR" Name="erl" />
-          </Directory>
-        </Directory>
-      </Directory>
-    </Directory>
+    
 
     <Feature Id="Complete" Level="1">
       <!-- TODO: Remove the comments around this ComponentRef element and the Component above in order to add resources to this installer. -->
@@ -43,39 +23,35 @@
     </Feature>
 
     <Upgrade Id="9BA3E701-8F64-46B1-9D2A-8A29B22C0F65">
-      <UpgradeVersion OnlyDetect="no" Property="PREVIOUSFOUND"
-        Maximum="$(var.ProductVersion)" IncludeMaximum="no"/>
-      <UpgradeVersion OnlyDetect="yes" Property="SELFFOUND"
-        Minimum="$(var.ProductVersion)" IncludeMinimum="yes"
-        Maximum="$(var.ProductVersion)" IncludeMaximum="yes" />
-      <UpgradeVersion OnlyDetect="yes" Property="NEWERFOUND"
-        Minimum="$(var.ProductVersion)" IncludeMinimum="no" />
+      <UpgradeVersion OnlyDetect="no" Property="PREVIOUSFOUND" Maximum="$(var.ProductVersion)" IncludeMaximum="no" />
+      <UpgradeVersion OnlyDetect="yes" Property="SELFFOUND" Minimum="$(var.ProductVersion)" IncludeMinimum="yes" Maximum="$(var.ProductVersion)" IncludeMaximum="yes" />
+      <UpgradeVersion OnlyDetect="yes" Property="NEWERFOUND" Minimum="$(var.ProductVersion)" IncludeMinimum="no" />
     </Upgrade>
 
     <InstallExecuteSequence>
-      <Custom Action='NoDowngrade' After='FindRelatedProducts'>NEWERFOUND</Custom>
-      <Custom Action='AlreadyUpdated' After='FindRelatedProducts'>SELFFOUND</Custom>
+      <Custom Action="NoDowngrade" After="FindRelatedProducts" Condition="NEWERFOUND" />
+      <Custom Action="AlreadyUpdated" After="FindRelatedProducts" Condition="SELFFOUND" />
       <RemoveExistingProducts After="InstallValidate" />
     </InstallExecuteSequence>
     
-    <CustomAction Id='NoDowngrade' Error='A later version of [ProductName] is already installed.' />
-    <CustomAction Id='AlreadyUpdated' Error='This version of [ProductName] is already installed.' />
+    <CustomAction Id="NoDowngrade" Error="A later version of [ProductName] is already installed." />
+    <CustomAction Id="AlreadyUpdated" Error="This version of [ProductName] is already installed." />
     
     <Property Id="ALLUSERS" Value="1" />
     <Property Id="REBOOT" Value="ReallySuppress" />
     <Property Id="MSIRESTARTMANAGERCONTROL" Value="Disable" />
 
-    <ComponentGroup Id ="MainComponent">
-      <Component Id="MyDLP.EndPoint.Platform.dll" Directory="INSTALLLOCATION" Guid="*">
+    <ComponentGroup Id="MainComponent">
+      <Component Id="MyDLP.EndPoint.Platform.dll" Directory="INSTALLLOCATION">
         <File Id="MyDLP.EndPoint.Platform.dll" Name="MyDLP.EndPoint.Platform.dll" KeyPath="yes" Vital="yes" DiskId="1" Source="..\..\Service\bin\Release\MyDLP.EndPoint.Platform.dll" />
       </Component>
 
-      <Component Id="MyDLP.EndPoint.Service.exe" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="MyDLP.EndPoint.Service.exe" Directory="INSTALLLOCATION">
         <File Id="MyDLP.EndPoint.Service.exe" Name="MyDLP.EndPoint.Service.exe" KeyPath="yes" Vital="yes" DiskId="1" Source="..\..\Service\bin\Release\MyDLP.EndPoint.Service.exe" />
         
-        <ServiceInstall Id="MyDLP.EndPoint.Service.exe" Name="mydlpepwin" DisplayName="MyDLP EP Win" Type="ownProcess" Start="auto" ErrorControl="normal" Description="MyDLP Windows Endpoint"/>
+        <ServiceInstall Id="MyDLP.EndPoint.Service.exe" Name="mydlpepwin" DisplayName="MyDLP EP Win" Type="ownProcess" Start="auto" ErrorControl="normal" Description="MyDLP Windows Endpoint" />
         <ServiceControl Id="Start.MyDLP.EndPoint.Service.exe" Name="mydlpepwin" Start="install" Wait="no" />
-        <ServiceControl Id="Stop.MyDLP.EndPoint.Service.exe" Name="mydlpepwin" Stop="both" Wait="yes" Remove="uninstall"/>
+        <ServiceControl Id="Stop.MyDLP.EndPoint.Service.exe" Name="mydlpepwin" Stop="both" Wait="yes" Remove="uninstall" />
 
         <CreateFolder Directory="LOGSDIR" />
         <CreateFolder Directory="RUNDIR" />
@@ -84,7 +60,7 @@
         <CreateFolder Directory="PRINTINGDIR" />
       </Component>
 
-      <Component Id="MyDLP.EndPoint.Watchdog.exe" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="MyDLP.EndPoint.Watchdog.exe" Directory="INSTALLLOCATION">
         <File Id="MyDLP.EndPoint.Watchdog.exe" Name="MyDLP.EndPoint.Watchdog.exe" KeyPath="yes" Vital="yes" DiskId="1" Source="..\..\Watchdog\bin\Release\MyDLP.EndPoint.Watchdog.exe" />
         
         <ServiceInstall Id="MyDLP.EndPoint.Watchdog.exe" Name="mydlpepwatchdog" DisplayName="MyDLP EP Watchdog" Type="ownProcess" Start="demand" ErrorControl="normal" Description="MyDLP EP Watchdog" />
@@ -96,88 +72,88 @@
         <CreateFolder Directory="MNESIADIR" />
       </Component>
 
-      <Component Id="mydlpui.exe" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="mydlpui.exe" Directory="INSTALLLOCATION">
         <File Id="mydlpui.exe" Name="mydlpui.exe" KeyPath="yes" Vital="yes" DiskId="1" Source="..\..\SessionAgent\bin\Release\mydlpui.exe" />
       </Component>
 
 
-      <Component Id="MyDLP.EndPoint.Core.dll" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="MyDLP.EndPoint.Core.dll" Directory="INSTALLLOCATION">
         <File Id="MyDLP.EndPoint.Core.dll" Name="MyDLP.EndPoint.Core.dll" KeyPath="yes" Vital="yes" DiskId="1" Source="..\..\Service\bin\Release\MyDLP.EndPoint.Core.dll" />
       </Component>
 
-      <Component Id="MyDLPMF.pdb" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="MyDLPMF.pdb" Directory="INSTALLLOCATION">
         <File Id="MyDLPMF.pdb" Name="MyDLPMF.pdb" Vital="no" DiskId="1" Source="..\..\MiniFilter\src\objchk_wxp_x86\i386\MyDLPMF.pdb" />
       </Component>
 
-      <Component Id="vc90.pdb" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="vc90.pdb" Directory="INSTALLLOCATION">
         <File Id="vc90.pdb" Name="vc90.pdb" KeyPath="yes" Vital="no" DiskId="1" Source="..\..\MiniFilter\src\objchk_wxp_x86\i386\vc90.pdb" />
       </Component>
 
-      <Component Id="MyDLPMF.sys" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="MyDLPMF.sys" Directory="INSTALLLOCATION">
         <File Id="MyDLPMF.sys" Name="MyDLPMF.sys" KeyPath="yes" Vital="yes" DiskId="1" Source="..\..\MiniFilter\src\objchk_wxp_x86\i386\MyDLPMF.sys" />
       </Component>
 
-      <Component Id="MyDLPMF_64.sys" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="MyDLPMF_64.sys" Directory="INSTALLLOCATION">
         <File Id="MyDLPMF_64.sys" Name="MyDLPMF_64.sys" KeyPath="yes" Vital="yes" DiskId="1" Source="..\..\MiniFilter\src\objchk_win7_amd64\amd64\MyDLPMF.sys" />
       </Component>
 
-      <Component Id="MyDLPKBF.sys" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="MyDLPKBF.sys" Directory="INSTALLLOCATION">
         <File Id="MyDLPKBF.sys" Name="MyDLPKBF.sys" KeyPath="yes" Vital="yes" DiskId="1" Source="..\..\KbFilter\src\objchk_wxp_x86\i386\MyDLPKBF.sys" />
       </Component>
 
-      <Component Id="MyDLPKBF_64.sys" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="MyDLPKBF_64.sys" Directory="INSTALLLOCATION">
         <File Id="MyDLPKBF_64.sys" Name="MyDLPKBF_64.sys" KeyPath="yes" Vital="yes" DiskId="1" Source="..\..\KbFilter\src\objchk_win7_amd64\amd64\MyDLPKBF.sys" />
       </Component>
 
-      <Component Id="MyDLPKBF.pdb" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="MyDLPKBF.pdb" Directory="INSTALLLOCATION">
         <File Id="MyDLPKBF.pdb" Name="MyDLPKBF.pdb" Vital="no" DiskId="1" Source="..\..\KbFilter\src\objchk_wxp_x86\i386\MyDLPKBF.pdb" />
       </Component>
 
-      <Component Id="mydlp.conf" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="mydlp.conf" Directory="INSTALLLOCATION">
         <File Id="mydlp.conf" Name="mydlp.conf" Vital="yes" KeyPath="yes" DiskId="1" Source="..\..\Engine\mydlp\src\mydlp\mydlp-ep.conf" />
       </Component>
 
-      <Component Id="engine_java_run" Directory="ENGINEJAVADIR" Guid="*">
+      <Component Id="engine_java_run" Directory="ENGINEJAVADIR">
         <File Id="engine_java_run" Name="Run.bat" Vital="yes" KeyPath="yes" DiskId="1" Source="..\..\Engine\mydlp\src\backend\Run.bat" />
       </Component>
 
-      <Component Id="engine_java_jar" Directory="ENGINEJAVADIR" Guid="*">
+      <Component Id="engine_java_jar" Directory="ENGINEJAVADIR">
         <File Id="engine_java_jar" Name="mydlp-backend.jar" Vital="yes" KeyPath="yes" DiskId="1" Source="..\..\Engine\mydlp\src\backend\target\mydlp-backend.jar" />
       </Component>
 
-      <Component Id="tika_xps_java_jar" Directory="ENGINEJAVADIR" Guid="*">
+      <Component Id="tika_xps_java_jar" Directory="ENGINEJAVADIR">
         <File Id="tika_xps_java_jar" Name="tika-xps.jar" Vital="yes" KeyPath="yes" DiskId="1" Source="..\..\Engine\mydlp\src\backend\target\tika-xps.jar" />
       </Component>
 
-      <Component Id="AppPath" Directory="INSTALLLOCATION" Guid="*">
+      <Component Id="AppPath" Directory="INSTALLLOCATION">
         <RegistryValue Id="AppPath" Root="HKLM" Key="Software\MyDLP" Name="AppPath" Value="[INSTALLLOCATION]" Type="string" KeyPath="yes" />
       </Component>
 
-      <Component Id="ManagementServerComp" Directory="INSTALLLOCATION" Guid="*" Permanent="yes" NeverOverwrite="no">
+      <Component Id="ManagementServerComp" Directory="INSTALLLOCATION" Permanent="yes" NeverOverwrite="no">
         <RegistryValue Id="ManagementServerKey" Root="HKLM" Key="Software\MyDLP" Name="management_server" Value="[MANAGEMENTSERVER]" Type="string" />
       </Component>
     </ComponentGroup>
 
-    <ComponentGroup Id ="ControlPanel">
-      <Component Id="mydlpcpl.exe" Directory="INSTALLLOCATION" Guid="*">
+    <ComponentGroup Id="ControlPanel">
+      <Component Id="mydlpcpl.exe" Directory="INSTALLLOCATION">
         <File Id="mydlpcpl.exe" Name="mydlpcpl.exe" KeyPath="yes" Vital="yes" DiskId="1" Source="..\..\Tools\ControlPanel\bin\Release\MyDLP.EndPoint.Tools.ControlPanel.exe" />
       </Component>
 
-      <Component Id="ControlPanelCLSIDEntries" Directory="INSTALLLOCATION" Guid="*" >
-        <RegistryKey Root="HKCR" Key="CLSID\{2CA4E47D-F0DA-4726-9E5C-BE52DF347249}"  Action="createAndRemoveOnUninstall">
-          <RegistryValue Type="string" Name="LocalizedString" Value="MyDLP Settings"/>
-          <RegistryValue Type="string" Name="InfoTip" Value="Configure MyDLP Endpoint Agent"/>
-          <RegistryValue Type="string" Name="System.ApplicationName" Value="MyDLP.Settings"/>
-          <RegistryValue Type="string" Name="System.ControlPanel.Category" Value="5"/>
-          <RegistryValue Type="string" Value="MyDLP" KeyPath="yes"/>
+      <Component Id="ControlPanelCLSIDEntries" Directory="INSTALLLOCATION">
+        <RegistryKey Root="HKCR" Key="CLSID\{2CA4E47D-F0DA-4726-9E5C-BE52DF347249}" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
+          <RegistryValue Type="string" Name="LocalizedString" Value="MyDLP Settings" />
+          <RegistryValue Type="string" Name="InfoTip" Value="Configure MyDLP Endpoint Agent" />
+          <RegistryValue Type="string" Name="System.ApplicationName" Value="MyDLP.Settings" />
+          <RegistryValue Type="string" Name="System.ControlPanel.Category" Value="5" />
+          <RegistryValue Type="string" Value="MyDLP" KeyPath="yes" />
         </RegistryKey>
-        <RegistryKey Root="HKCR" Key="CLSID\{2CA4E47D-F0DA-4726-9E5C-BE52DF347249}\DefaultIcon" Action="createAndRemoveOnUninstall">
-          <RegistryValue Type="string" Value="[INSTALLLOCATION]mydlpcpl.exe"/>
+        <RegistryKey Root="HKCR" Key="CLSID\{2CA4E47D-F0DA-4726-9E5C-BE52DF347249}\DefaultIcon" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
+          <RegistryValue Type="string" Value="[INSTALLLOCATION]mydlpcpl.exe" />
         </RegistryKey>
-        <RegistryKey Root="HKCR" Key="CLSID\{2CA4E47D-F0DA-4726-9E5C-BE52DF347249}\Shell\Open\Command" Action="createAndRemoveOnUninstall">
-          <RegistryValue Type="string" Value="[INSTALLLOCATION]mydlpcpl.exe"/>
+        <RegistryKey Root="HKCR" Key="CLSID\{2CA4E47D-F0DA-4726-9E5C-BE52DF347249}\Shell\Open\Command" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
+          <RegistryValue Type="string" Value="[INSTALLLOCATION]mydlpcpl.exe" />
         </RegistryKey>
-        <RegistryKey Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{2CA4E47D-F0DA-4726-9E5C-BE52DF347249}" Action="createAndRemoveOnUninstall"/>
+        <RegistryKey Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{2CA4E47D-F0DA-4726-9E5C-BE52DF347249}" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes" />
       </Component>
 
     </ComponentGroup>
@@ -199,9 +175,9 @@
       <DialogRef Id="ResumeDlg" />
       <DialogRef Id="UserExit" />
 
-      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999" />
 
-      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDlg">1</Publish>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDlg" />
 
       <!--<Publish Dialog="SetupTypeDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
       <Publish Dialog="SetupTypeDlg" Control="TypicalButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
@@ -217,7 +193,7 @@
       -->
 
       <!--Order="1">WixUI_InstallMode = "InstallCustom"-->
-      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="InstallDlg">1</Publish>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="InstallDlg" />
       <!--<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="InstallDlg"
                Order="2">WixUI_InstallMode = "InstallTypical" OR WixUI_InstallMode = "InstallComplete"</Publish>
       <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="InstallDlg"
@@ -243,7 +219,7 @@
 
       <Dialog Id="InstallDlg" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes">
         <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
-          <Text>{\DlgTitleFont}Ready to Install</Text>
+          <Text Value="{\DlgTitleFont}Ready to Install" />
         </Control>
 
         <Control Id="Install" Type="PushButton" X="304" Y="243" Width="56" Height="17" Default="yes" Text="Install">
@@ -254,14 +230,12 @@
           <Publish Event="EndDialog" Value="Exit" />
         </Control>
 
-        <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15"
-         Transparent="yes" NoPrefix="yes">
-          <Text>The [Wizard] is ready to begin the installation</Text>
+        <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text Value="The [Wizard] is ready to begin the installation" />
         </Control>
 
-        <Control Id="EditDescription" Type="Text" X="25" Y="50" Width="280" Height="15"
-        Transparent="yes" NoPrefix="yes">
-          <Text>Enter MyDLP Network Server IP address</Text>
+        <Control Id="EditDescription" Type="Text" X="25" Y="50" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text Value="Enter MyDLP Network Server IP address" />
         </Control>
 
         <Control Id="RegEdit" Type="Edit" X="25" Y="65" Width="220" Height="18" Property="MANAGEMENTSERVER" Text="{80}" />
@@ -286,17 +260,27 @@
     </UI>
     -->
 
-    <Property Id="Wizard">Setup Wizard</Property>
+    <Property Id="Wizard" Value="Setup Wizard" />
 
     <Property Id="MANAGEMENTSERVER">
-      <RegistrySearch Id="ManagementServerSearch"
-        Root="HKLM"
-        Key="Software\MyDLP"
-	      Name="management_server"
-	      Type="raw" />
+      <RegistrySearch Id="ManagementServerSearch" Root="HKLM" Key="Software\MyDLP" Name="management_server" Type="raw" />
     </Property>
 
-  </Product>
+  
+      <StandardDirectory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLLOCATION" Name="MyDLP">
+          <Directory Id="LOGSDIR" Name="logs" />
+          <Directory Id="RUNDIR" Name="run" />
+          <Directory Id="SPOOLDIR" Name="spool" />
+          <Directory Id="MNESIADIR" Name="mnesia" />
+          <Directory Id="PRINTINGDIR" Name="printing" />
+          <Directory Id="ENGINEDIR" Name="engine">
+            <Directory Id="ENGINEJAVADIR" Name="java" />
+            <Directory Id="ENGINEERLDIR" Name="erl" />
+          </Directory>
+        </Directory>
+      </StandardDirectory>
+    </Package>
 
 </Wix>
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -12,6 +12,11 @@
     <AssemblyName>MyDLP.EndPoint.Test</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,7 +55,7 @@
       <Project>{AFB11AD3-C835-438B-B2F8-B5BB7F798E3D}</Project>
       <Name>MyDLP.EndPoint.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Platform\MyDLP.EndPoint.System.vcproj">
+    <ProjectReference Include="..\Platform\MyDLP.EndPoint.System.vcxproj">
       <Project>{D0F4FD82-7881-458A-AD47-293BF6FA76D8}</Project>
       <Name>MyDLP.EndPoint.Platform</Name>
     </ProjectReference>

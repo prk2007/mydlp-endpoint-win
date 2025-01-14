@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDLP.EndPoint.Service", "Service\MyDLP.EndPoint.Service.csproj", "{90AD317F-4749-4543-A89E-1D8C0F8AAD42}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1B81B50A-3BBB-4E12-8E94-76CC98E6E5D9} = {1B81B50A-3BBB-4E12-8E94-76CC98E6E5D9}
@@ -10,15 +12,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDLP.EndPoint.Service", "S
 		{2503E69A-8B1D-4532-8D50-876BE7645B22} = {2503E69A-8B1D-4532-8D50-876BE7645B22}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDLP.EndPoint.MiniFilter", "Minifilter\MyDLP.EndPoint.Minifilter.vcproj", "{DD6E8D33-6BF2-438F-884E-FDB92B71D1A4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDLP.EndPoint.MiniFilter", "Minifilter\MyDLP.EndPoint.Minifilter.vcxproj", "{DD6E8D33-6BF2-438F-884E-FDB92B71D1A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDLP.EndPoint.Core", "Core\MyDLP.EndPoint.Core.csproj", "{AFB11AD3-C835-438B-B2F8-B5BB7F798E3D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDLP.EndPoint.Platform", "Platform\MyDLP.EndPoint.System.vcproj", "{D0F4FD82-7881-458A-AD47-293BF6FA76D8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDLP.EndPoint.Platform", "Platform\MyDLP.EndPoint.System.vcxproj", "{D0F4FD82-7881-458A-AD47-293BF6FA76D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDLP.EndPoint.Test", "Test\MyDLP.EndPoint.Test.csproj", "{8A046CF3-1607-4D98-9334-E08735C2311F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDLP.EndPoint.Engine", "Engine\MyDLP.EndPoint.Engine.vcproj", "{1B81B50A-3BBB-4E12-8E94-76CC98E6E5D9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDLP.EndPoint.Engine", "Engine\MyDLP.EndPoint.Engine.vcxproj", "{1B81B50A-3BBB-4E12-8E94-76CC98E6E5D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDLP.EndPoint.Watchdog", "Watchdog\MyDLP.EndPoint.Watchdog.csproj", "{90DE2F81-D9D4-4B91-B790-A7EB249A7438}"
 EndProject
@@ -43,7 +45,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDLP.EndPoint.Tools.Contro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDLP.EndPoint.SessionAgent", "SessionAgent\MyDLP.EndPoint.SessionAgent.csproj", "{2503E69A-8B1D-4532-8D50-876BE7645B22}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDLP.EndPoint.KbFilter", "KbFilter\KbFilter.vcproj", "{C566388B-9259-427D-BD19-97A49D3CDCA0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDLP.EndPoint.KbFilter", "KbFilter\KbFilter.vcxproj", "{C566388B-9259-427D-BD19-97A49D3CDCA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -222,5 +224,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {36BA4145-FDEE-4408-B597-4D2120B0EC86}
 	EndGlobalSection
 EndGlobal
